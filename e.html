@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AutoMotor | فروش خودرو</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Arial, sans-serif; }
+:root {
+    --black: #0d0d0d; --dark: #1a1a1a; --gray-dark: #2a2a2a; --gray: #3a3a3a;
+    --gray-mid: #555; --gray-light: #888; --gray-lighter: #b0b0b0;
+    --white: #f5f5f5; --border: #333;
+}
+
+/* ===== LIGHT THEME ===== */
+body.light-theme {
+    --black: #f5f5f5;
+    --dark: #ffffff;
+    --gray-dark: #e8e8e8;
+    --gray: #d0d0d0;
+    --gray-mid: #a0a0a0;
+    --gray-light: #666;
+    --gray-lighter: #444;
+    --white: #1a1a1a;
+    --border: #ddd;
+}
+
+body { background: var(--black); color: var(--white); line-height: 1.6; overflow-x: hidden; transition: background 0.4s, color 0.4s; }
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+.container { max-width: 1300px; margin: 0 auto; padding: 0 20px; }
+
+/* TOP PANEL */
+.top-panel { background: var(--dark); border-bottom: 1px solid var(--border); font-size: 13px; padding: 8px 0; transition: background 0.4s, border-color 0.4s; }
+.top-panel .container { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+.top-links { display: flex; gap: 20px; align-items: center; }
+.top-links a { color: var(--gray-lighter); transition: color 0.3s; }
+.top-links a:hover { color: var(--white); }
+.top-auth { display: flex; gap: 10px; align-items: center; }
+.btn-auth { padding: 5px 16px; border-radius: 4px; font-size: 12px; transition: all 0.3s; cursor: pointer; border: 1px solid var(--gray); }
+.btn-login { background: transparent; color: var(--gray-lighter); }
+.btn-login:hover { border-color: var(--gray-lighter); color: var(--white); }
+.btn-register { background: var(--gray); color: var(--white); border-color: var(--gray); }
+.btn-register:hover { background: var(--gray-mid); }
+
+/* THEME TOGGLE BUTTON */
+.theme-toggle {
+    padding: 6px 12px;
+    background: var(--gray);
+    color: var(--white);
+    border: 1px solid var(--gray);
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+.theme-toggle:hover { background: var(--gray-mid); transform: scale(1.05); }
+
+/* HEADER */
+.header { background: var(--black); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 1000; transition: background 0.4s, border-color 0.4s; }
+.header .container { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; }
+.logo { display: flex; align-items: center; gap: 10px; font-size: 24px; font-weight: bold; letter-spacing: 2px; }
+.logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, var(--gray-mid), var(--gray)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; border: 2px solid var(--gray-light); }
+.nav { display: flex; gap: 30px; align-items: center; }
+.nav a { color: var(--gray-lighter); font-size: 14px; transition: color 0.3s; position: relative; padding: 5px 0; }
+.nav a:hover, .nav a.active { color: var(--white); }
+.nav a::after { content: ''; position: absolute; bottom: 0; right: 0; width: 0; height: 2px; background: var(--gray-light); transition: width 0.3s; }
+.nav a:hover::after, .nav a.active::after { width: 100%; }
+.mobile-toggle { display: none; background: none; border: none; color: var(--white); font-size: 24px; cursor: pointer; }
+
+/* HERO */
+.hero { position: relative; height: 550px; overflow: hidden; background: var(--dark); }
+.slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1s ease; display: flex; align-items: center; }
+.slide.active { opacity: 1; }
+.slide-bg { position: absolute; inset: 0; background-size: cover; background-position: center; background-repeat: no-repeat; z-index: 0; }
+.slide-overlay { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(13,13,13,0.95) 0%, rgba(13,13,13,0.6) 50%, rgba(13,13,13,0.3) 100%); z-index: 1; }
+body.light-theme .slide-overlay { background: linear-gradient(90deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0.2) 100%); }
+.slide-content { position: relative; z-index: 2; max-width: 600px; padding: 0 60px; }
+.slide-content .tag { display: inline-block; background: var(--gray); color: var(--gray-lighter); padding: 5px 15px; border-radius: 20px; font-size: 12px; margin-bottom: 20px; letter-spacing: 1px; }
+.slide-content h1 { font-size: 48px; margin-bottom: 20px; line-height: 1.2; color: var(--white); }
+.slide-content p { color: var(--gray-lighter); margin-bottom: 30px; font-size: 16px; }
+.slide-btns { display: flex; gap: 15px; }
+.btn { padding: 12px 30px; border-radius: 6px; font-size: 14px; cursor: pointer; transition: all 0.3s; border: 1px solid transparent; display: inline-flex; align-items: center; gap: 8px; }
+.btn-primary { background: var(--gray); color: var(--white); border-color: var(--gray); }
+.btn-primary:hover { background: var(--gray-mid); transform: translateY(-2px); }
+.btn-outline { background: transparent; color: var(--white); border-color: var(--gray-light); }
+.btn-outline:hover { background: var(--gray); border-color: var(--gray); }
+.slider-dots { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; z-index: 3; }
+.dot { width: 12px; height: 12px; border-radius: 50%; background: var(--gray); cursor: pointer; transition: all 0.3s; }
+.dot.active { background: var(--gray-lighter); transform: scale(1.2); }
+
+/* SEARCH */
+.search-section { background: var(--dark); padding: 30px 0; border-bottom: 1px solid var(--border); transition: background 0.4s, border-color 0.4s; }
+.search-box { display: grid; grid-template-columns: repeat(4, 1fr) auto; gap: 15px; align-items: end; }
+.search-field label { display: block; font-size: 12px; color: var(--gray-light); margin-bottom: 8px; }
+.search-field select, .search-field input { width: 100%; padding: 12px 15px; background: var(--gray-dark); border: 1px solid var(--border); color: var(--white); border-radius: 6px; font-size: 14px; transition: all 0.4s; }
+.search-field select:focus, .search-field input:focus { outline: none; border-color: var(--gray-light); }
+.search-btn { padding: 12px 30px; background: var(--gray); color: var(--white); border: none; border-radius: 6px; cursor: pointer; font-size: 14px; height: 45px; transition: background 0.3s; }
+.search-btn:hover { background: var(--gray-mid); }
+
+/* SECTION */
+.section { padding: 70px 0; transition: background 0.4s; }
+.section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; flex-wrap: wrap; gap: 15px; }
+.section-title { font-size: 28px; position: relative; padding-right: 20px; }
+.section-title::before { content: ''; position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 4px; height: 30px; background: var(--gray-light); border-radius: 2px; }
+.section-title small { display: block; font-size: 13px; color: var(--gray-light); font-weight: normal; margin-top: 5px; }
+.view-all { color: var(--gray-lighter); font-size: 14px; transition: color 0.3s; }
+.view-all:hover { color: var(--white); }
+
+/* CARS */
+.cars-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
+.car-card { background: var(--dark); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: all 0.4s; cursor: pointer; }
+.car-card:hover { transform: translateY(-8px); border-color: var(--gray-mid); box-shadow: 0 15px 40px rgba(0,0,0,0.3); }
+.car-image { position: relative; height: 200px; background: var(--gray-dark); display: flex; align-items: flex-start; justify-content: flex-end; padding: 15px; border-bottom: 1px solid var(--border); transition: background 0.4s, border-color 0.4s; }
+.car-badge { background: var(--gray); color: var(--white); padding: 4px 12px; border-radius: 20px; font-size: 11px; }
+.car-info { padding: 20px; }
+.car-name { font-size: 18px; margin-bottom: 5px; }
+.car-type { font-size: 12px; color: var(--gray-light); margin-bottom: 15px; }
+.car-specs { display: flex; gap: 15px; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid var(--border); font-size: 12px; color: var(--gray-lighter); }
+.car-footer { display: flex; justify-content: space-between; align-items: center; }
+.car-price { font-size: 16px; font-weight: bold; }
+.car-price small { display: block; font-size: 11px; color: var(--gray-light); font-weight: normal; }
+.car-btn { padding: 8px 18px; background: var(--gray-dark); border: 1px solid var(--gray); color: var(--gray-lighter); border-radius: 6px; font-size: 12px; cursor: pointer; transition: all 0.3s; }
+.car-btn:hover { background: var(--gray); color: var(--white); }
+
+/* FEATURES */
+.features { background: var(--dark); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); transition: background 0.4s, border-color 0.4s; }
+.features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; }
+.feature { text-align: center; padding: 30px 20px; }
+.feature-icon { width: 70px; height: 70px; margin: 0 auto 20px; background: var(--gray-dark); border: 1px solid var(--gray); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; transition: all 0.3s; }
+.feature:hover .feature-icon { background: var(--gray); transform: rotate(360deg); }
+.feature h3 { font-size: 16px; margin-bottom: 10px; }
+.feature p { font-size: 13px; color: var(--gray-light); }
+
+/* BRANDS */
+.brands-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 20px; }
+.brand-card { background: var(--dark); border: 1px solid var(--border); border-radius: 10px; padding: 30px 15px; text-align: center; transition: all 0.3s; cursor: pointer; }
+.brand-card:hover { background: var(--gray-dark); border-color: var(--gray-mid); transform: translateY(-5px); }
+.brand-logo { width: 60px; height: 60px; margin: 0 auto 15px; background: var(--gray-dark); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; color: var(--gray-light); border: 1px solid var(--border); }
+.brand-card h4 { font-size: 14px; color: var(--gray-lighter); }
+
+/* NEWSLETTER */
+.newsletter { background: var(--dark); border: 1px solid var(--border); border-radius: 15px; padding: 50px; text-align: center; margin: 50px 0; transition: background 0.4s, border-color 0.4s; }
+.newsletter h2 { font-size: 28px; margin-bottom: 10px; }
+.newsletter p { color: var(--gray-light); margin-bottom: 25px; }
+.newsletter-form { display: flex; max-width: 500px; margin: 0 auto; gap: 10px; }
+.newsletter-form input { flex: 1; padding: 14px 20px; background: var(--gray-dark); border: 1px solid var(--border); color: var(--white); border-radius: 6px; }
+.newsletter-form button { padding: 14px 30px; background: var(--gray); color: var(--white); border: none; border-radius: 6px; cursor: pointer; }
+.newsletter-form button:hover { background: var(--gray-mid); }
+
+/* FOOTER */
+.footer { background: var(--dark); border-top: 1px solid var(--border); padding: 60px 0 20px; transition: background 0.4s, border-color 0.4s; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+.footer-col h4 { font-size: 16px; margin-bottom: 20px; }
+.footer-col p, .footer-col a { color: var(--gray-light); font-size: 13px; display: block; margin-bottom: 10px; }
+.footer-col a:hover { color: var(--white); }
+.footer-social { display: flex; gap: 10px; margin-top: 20px; }
+.footer-social a { width: 36px; height: 36px; background: var(--gray-dark); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; margin: 0; }
+.footer-social a:hover { background: var(--gray); color: var(--white); }
+.footer-bottom { border-top: 1px solid var(--border); padding-top: 20px; text-align: center; color: var(--gray-light); font-size: 12px; }
+
+/* RESPONSIVE */
+@media (max-width: 992px) {
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .search-box { grid-template-columns: 1fr 1fr; }
+    .search-btn { grid-column: span 2; }
+}
+@media (max-width: 768px) {
+    .top-links { display: none; }
+    .nav { position: fixed; top: 0; right: -100%; width: 280px; height: 100vh; background: var(--dark); flex-direction: column; padding: 80px 30px; transition: right 0.4s; border-left: 1px solid var(--border); }
+    .nav.open { right: 0; }
+    .mobile-toggle { display: block; }
+    .slide-content { padding: 0 30px; }
+    .slide-content h1 { font-size: 32px; }
+    .hero { height: 450px; }
+    .search-box { grid-template-columns: 1fr; }
+    .search-btn { grid-column: span 1; }
+    .newsletter { padding: 30px 20px; }
+    .newsletter-form { flex-direction: column; }
+    .footer-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- TOP PANEL -->
+<div class="top-panel">
+    <div class="container">
+        <div class="top-links">
+            <a href="#">📞 ۰۲۱-۱۲۳۴۵۶۷۸</a>
+            <a href="#">✉️ info@automotor.com</a>
+            <a href="#">📍 تهران، ایران</a>
+        </div>
+        <div class="top-auth">
+            <button class="theme-toggle" id="themeToggle" title="تغییر تم">🌙 حالت روشن</button>
+            <button class="btn-auth btn-login">ورود</button>
+            <button class="btn-auth btn-register">ثبت‌نام</button>
+        </div>
+    </div>
+</div>
+
+<!-- HEADER -->
+<header class="header">
+    <div class="container">
+        <div class="logo">
+            <div class="logo-icon">🚗</div>
+            <span>AUTO<span style="color:var(--gray-lighter)">MOTOR</span></span>
+        </div>
+        <nav class="nav" id="nav">
+            <a href="#" class="active">صفحه اصلی</a>
+            <a href="#cars">خودروها</a>
+            <a href="#brands">برندها</a>
+            <a href="#">فروش اقساطی</a>
+            <a href="#">خدمات پس از فروش</a>
+            <a href="#">تماس با ما</a>
+        </nav>
+        <button class="mobile-toggle" id="mobileToggle">☰</button>
+    </div>
+</header>
+
+<!-- HERO SLIDER -->
+<section class="hero">
+    <div class="slide active">
+        <div class="slide-bg" style="background-image: url('nody-عکس-شب-ماشین-1718053290.jpg');"></div>
+        <div class="slide-overlay"></div>
+        <div class="slide-content">
+            <span class="tag">جدیدترین محصولات</span>
+            <h1>آینده رانندگی را تجربه کنید</h1>
+            <p>با جدیدترین خودروهای الکتریکی و هیبریدی، به دنیای فردا قدم بگذارید. کیفیت، قدرت و نوآوری در یک جا.</p>
+            <div class="slide-btns">
+                <button class="btn btn-primary">مشاهده خودروها →</button>
+                <button class="btn btn-outline">دریافت مشاوره</button>
+            </div>
+        </div>
+    </div>
+    <div class="slide">
+        <div class="slide-bg" style="background-image: url('CNT442014000925101719TalF81FJuJ0E.jpg');"></div>
+        <div class="slide-overlay"></div>
+        <div class="slide-content">
+            <span class="tag">پیشنهاد ویژه</span>
+            <h1>تخفیف‌های استثنایی فصل</h1>
+            <p>با خرید خودروهای منتخب، از تخفیف‌های ویژه و شرایط فروش اقساطی بهره‌مند شوید.</p>
+            <div class="slide-btns">
+                <button class="btn btn-primary">مشاهده تخفیف‌ها →</button>
+                <button class="btn btn-outline">شرایط اقساط</button>
+            </div>
+        </div>
+    </div>
+    <div class="slide">
+        <div class="slide-bg" style="background-image: url('images (1).jpg');"></div>
+        <div class="slide-overlay"></div>
+        <div class="slide-content">
+            <span class="tag">خدمات ویژه</span>
+            <h1>خدمات پس از فروش حرفه‌ای</h1>
+            <p>تیم متخصص ما در تمام مراحل خرید، تحویل و نگهداری خودرو در کنار شماست.</p>
+            <div class="slide-btns">
+                <button class="btn btn-primary">بیشتر بدانید →</button>
+                <button class="btn btn-outline">تماس با ما</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="slider-dots" id="dots">
+        <div class="dot active" data-index="0"></div>
+        <div class="dot" data-index="1"></div>
+        <div class="dot" data-index="2"></div>
+    </div>
+</section>
+
+<!-- SEARCH -->
+<section class="search-section">
+    <div class="container">
+        <div class="search-box">
+            <div class="search-field">
+                <label>برند خودرو</label>
+                <select>
+                    <option>همه برندها</option>
+                    <option>تویوتا</option>
+                    <option>بی‌ام‌و</option>
+                    <option>مرسدس بنز</option>
+                    <option>هوندا</option>
+                    <option>تسلا</option>
+                </select>
+            </div>
+            <div class="search-field">
+                <label>نوع خودرو</label>
+                <select>
+                    <option>همه انواع</option>
+                    <option>سدان</option>
+                    <option>شاسی بلند</option>
+                    <option>کوپه</option>
+                    <option>هاچ‌بک</option>
+                </select>
+            </div>
+            <div class="search-field">
+                <label>حداکثر قیمت</label>
+                <select>
+                    <option>همه قیمت‌ها</option>
+                    <option>تا ۵۰۰ میلیون</option>
+                    <option>تا ۱ میلیارد</option>
+                    <option>تا ۲ میلیارد</option>
+                </select>
+            </div>
+            <div class="search-field">
+                <label>سال ساخت</label>
+                <select>
+                    <option>همه سال‌ها</option>
+                    <option>۱۴۰۳</option>
+                    <option>۱۴۰۲</option>
+                    <option>۱۴۰۱</option>
+                </select>
+            </div>
+            <button class="search-btn">🔍 جستجو</button>
+        </div>
+    </div>
+</section>
+
+<!-- CARS -->
+<section class="section" id="cars">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">
+                جدیدترین خودروها
+                <small>آخرین محصولات اضافه شده به فروشگاه</small>
+            </h2>
+            <a href="#" class="view-all">مشاهده همه →</a>
+        </div>
+        <div class="cars-grid" id="carsGrid"></div>
+    </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section features">
+    <div class="container">
+        <div class="features-grid">
+            <div class="feature">
+                <div class="feature-icon">🚚</div>
+                <h3>تحویل رایگان</h3>
+                <p>تحویل خودرو در محل، در سراسر کشور</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🛡️</div>
+                <h3>گارانتی معتبر</h3>
+                <p>گارانتی رسمی و خدمات پس از فروش</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">💳</div>
+                <h3>فروش اقساطی</h3>
+                <p>شرایط ویژه خرید اقساطی بدون دغدغه</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🔧</div>
+                <h3>خدمات تخصصی</h3>
+                <p>تیم فنی مجرب و قطعات اصلی</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- BRANDS -->
+<section class="section" id="brands">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">
+                برندهای معتبر
+                <small>با بهترین برندهای جهانی همکاری می‌کنیم</small>
+            </h2>
+        </div>
+        <div class="brands-grid" id="brandsGrid"></div>
+    </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="container">
+    <div class="newsletter">
+        <h2>عضویت در خبرنامه</h2>
+        <p>از جدیدترین محصولات، تخفیف‌ها و اخبار خودرو باخبر شوید</p>
+        <form class="newsletter-form" onsubmit="event.preventDefault(); alert('ایمیل شما با موفقیت ثبت شد!');">
+            <input type="email" placeholder="ایمیل خود را وارد کنید" required>
+            <button type="submit">عضویت</button>
+        </form>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div class="logo" style="margin-bottom:20px;">
+                    <div class="logo-icon">🚗</div>
+                    <span>AUTO<span style="color:var(--gray-lighter)">MOTOR</span></span>
+                </div>
+                <p>فروشگاه آنلاین خودرو با بیش از ۱۰ سال تجربه در زمینه خرید و فروش انواع خودروهای داخلی و خارجی.</p>
+                <div class="footer-social">
+                    <a href="#">📷</a>
+                    <a href="#">📘</a>
+                    <a href="#">🐦</a>
+                    <a href="#">▶️</a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>دسترسی سریع</h4>
+                <a href="#">صفحه اصلی</a>
+                <a href="#">خودروها</a>
+                <a href="#">برندها</a>
+                <a href="#">فروش اقساطی</a>
+            </div>
+            <div class="footer-col">
+                <h4>خدمات مشتریان</h4>
+                <a href="#">تماس با ما</a>
+                <a href="#">سوالات متداول</a>
+                <a href="#">شرایط و قوانین</a>
+                <a href="#">حریم خصوصی</a>
+            </div>
+            <div class="footer-col">
+                <h4>تماس با ما</h4>
+                <p>📍 تهران، خیابان ولیعصر</p>
+                <p>📞 ۰۲۱-۱۲۳۴۵۶۷۸</p>
+                <p>✉️ info@automotor.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © ۱۴۰۳ تمامی حقوق برای AUTO MOTOR محفوظ است.
+        </div>
+    </div>
+</footer>
+
+<script>
+/* THEME TOGGLE */
+const themeToggle = document.getElementById('themeToggle');
+const body = document.body;
+
+if (localStorage.getItem('theme') === 'light') {
+    body.classList.add('light-theme');
+    themeToggle.innerHTML = '☀️ حالت تاریک';
+}
+
+themeToggle.addEventListener('click', () => {
+    body.classList.toggle('light-theme');
+    if (body.classList.contains('light-theme')) {
+        themeToggle.innerHTML = '☀️ حالت تاریک';
+        localStorage.setItem('theme', 'light');
+    } else {
+        themeToggle.innerHTML = '🌙 حالت روشن';
+        localStorage.setItem('theme', 'dark');
+    }
+});
+
+/* SLIDER */
+const slides = document.querySelectorAll('.slide');
+const dots = document.querySelectorAll('.dot');
+let currentSlide = 0;
+let slideInterval;
+
+function showSlide(index) {
+    slides.forEach(s => s.classList.remove('active'));
+    dots.forEach(d => d.classList.remove('active'));
+    slides[index].classList.add('active');
+    dots[index].classList.add('active');
+    currentSlide = index;
+}
+function nextSlide() { showSlide((currentSlide + 1) % slides.length); }
+function prevSlide() { showSlide((currentSlide - 1 + slides.length) % slides.length); }
+
+dots.forEach((dot, i) => dot.addEventListener('click', () => { showSlide(i); resetInterval(); }));
+
+function startInterval() { slideInterval = setInterval(nextSlide, 5000); }
+function resetInterval() { clearInterval(slideInterval); startInterval(); }
+startInterval();
+
+/* MOBILE NAV */
+const mobileToggle = document.getElementById('mobileToggle');
+const nav = document.getElementById('nav');
+mobileToggle.addEventListener('click', () => {
+    nav.classList.toggle('open');
+    mobileToggle.textContent = nav.classList.contains('open') ? '✕' : '☰';
+});
+
+/* CARS DATA */
+const cars = [
+    { name: 'تویوتا کمری', type: 'سدان لوکس', badge: 'جدید', image: 'Toyota_camry2007.jpg', specs: ['⚙️ اتوماتیک', '⛽ بنزینی', '👥 ۵ نفره'], price: '۲,۵۰۰,۰۰۰,۰۰۰' },
+    { name: 'بی‌ام‌و X5', type: 'شاسی بلند', badge: 'ویژه', image: 'images (3).jpg', specs: ['⚙️ اتوماتیک', '⛽ بنزینی', '👥 ۵ نفره'], price: '۸,۹۰۰,۰۰۰,۰۰۰' },
+    { name: 'مرسدس بنز E-Class', type: 'سدان', badge: 'جدید', image: '23188_benz-e-class-2024.webp', specs: ['⚙️ اتوماتیک', '⛽ بنزینی', '👥 ۵ نفره'], price: '۶,۵۰۰,۰۰۰,۰۰۰' },
+    { name: 'تسلا Model 3', type: 'الکتریکی', badge: 'محبوب', image: 'tesla-model-3-red-driving-6ac1db7bf260c134fe9cc0d5.webp', specs: ['⚙️ اتوماتیک', '⚡ برقی', '👥 ۵ نفره'], price: '۴,۲۰۰,۰۰۰,۰۰۰' },
+    { name: 'هوندا سیویک', type: 'هاچ‌بک', badge: 'جدید', image: 'images (4).jpg', specs: ['⚙️ اتوماتیک', '⛽ بنزینی', '👥 ۵ نفره'], price: '۱,۸۰۰,۰۰۰,۰۰۰' },
+    { name: 'آئودی A6', type: 'سدان لوکس', badge: 'ویژه', image: 'images (5).jpg', specs: ['⚙️ اتوماتیک', '⛽ بنزینی', '👥 ۵ نفره'], price: '۷,۳۰۰,۰۰۰,۰۰۰' },
+    { name: 'کیا اسپورتیج', type: 'شاسی بلند', badge: 'محبوب', image: 'images (6).jpg', specs: ['⚙️ اتوماتیک', '⛽ بنزینی', '👥 ۵ نفره'], price: '۳,۱۰۰,۰۰۰,۰۰۰' },
+    { name: 'هیوندای سوناتا', type: 'سدان', badge: 'جدید', image: 'images (7).jpg', specs: ['⚙️ اتوماتیک', '⛽ بنزینی', '👥 ۵ نفره'], price: '۲,۸۰۰,۰۰۰,۰۰۰' }
+];
+
+const carsGrid = document.getElementById('carsGrid');
+cars.forEach(car => {
+    const card = document.createElement('div');
+    card.className = 'car-card';
+    const bgStyle = car.image ? `background-image: url('${car.image}');` : '';
+    card.innerHTML = `
+        <div class="car-image" style="${bgStyle} background-size: cover; background-position: center;">
+            <span class="car-badge">${car.badge}</span>
+        </div>
+        <div class="car-info">
+            <h3 class="car-name">${car.name}</h3>
+            <p class="car-type">${car.type}</p>
+            <div class="car-specs">
+                ${car.specs.map(s => `<span>${s}</span>`).join('')}
+            </div>
+            <div class="car-footer">
+                <div class="car-price">
+                    ${car.price}
+                    <small>تومان</small>
+                </div>
+                <button class="car-btn">جزئیات</button>
+            </div>
+        </div>
+    `;
+    carsGrid.appendChild(card);
+});
+
+/* BRANDS DATA */
+const brands = [
+    { name: 'تویوتا', icon: 'T' },
+    { name: 'بی‌ام‌و', icon: 'B' },
+    { name: 'مرسدس بنز', icon: 'M' },
+    { name: 'هوندا', icon: 'H' },
+    { name: 'تسلا', icon: '⚡' },
+    { name: 'آئودی', icon: 'A' },
+    { name: 'کیا', icon: 'K' },
+    { name: 'هیوندای', icon: 'H' },
+    { name: 'نیسان', icon: 'N' },
+    { name: 'پورشه', icon: 'P' }
+];
+
+const brandsGrid = document.getElementById('brandsGrid');
+brands.forEach(brand => {
+    const card = document.createElement('div');
+    card.className = 'brand-card';
+    card.innerHTML = `
+        <div class="brand-logo">${brand.icon}</div>
+        <h4>${brand.name}</h4>
+    `;
+    brandsGrid.appendChild(card);
+});
+</script>
+</body>
+</html>
